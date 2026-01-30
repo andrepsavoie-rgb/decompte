@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Décompte Widget</title>
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" href="/decompte/manifest.json">
 <style>
   body {
     margin: 0;
@@ -13,7 +13,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: #0b1220;
+    background: radial-gradient(circle at top, #111827, #020617);
     color: #22d3ee;
     text-align: center;
   }
@@ -22,12 +22,11 @@
 </style>
 </head>
 <body>
-  <div>
-    <div id="h">123</div>
-    <div id="m">00</div>
-    <div id="s">00</div>
-  </div>
-
-<script src="countdown.js"></script>
+<div>
+  <div id="h">123</div>
+  <div id="m">00</div>
+  <div id="s">00</div>
+</div>
+<script src="/decompte/countdown.js"></script>
 </body>
 </html>
