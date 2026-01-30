@@ -1,87 +1,198 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <title>Décompte 123h</title>
 
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#2563eb">
-  <link rel="icon" href="icons/icon-192.png">
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0b1220" />
 
   <style>
     body {
-      font-family: Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, #111827, #020617);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #e5e7eb;
+    }
+
+    .card {
+      width: min(90%, 720px);
+      padding: 40px 32px 32px;
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      backdrop-filter: blur(18px);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    }
+
+    .time {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      font-size: clamp(48px, 8vw, 92px);
+      font-weight: 300;
+      letter-spacing: 2px;
+    }
+
+    .time span.colon {
+      color: #22d3ee;
+    }
+
+    .labels {
+      display: flex;
+      justify-content: center;
+      gap: 88px;
+      margin-top: 8px;
+      font-size: 12px;
+      letter-spacing: 3px;
+      color: #94a3b8;
+    }
+
+    .progress {
+      margin: 28px 0 8px;
+      height: 4px;
+      width: 100%;
+      background: rgba(255,255,255,0.1);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #22d3ee, #38bdf8);
+      transition: width 0.4s ease;
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    .actions {
+      margin-top: 32px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    button {
+      padding: 14px 26px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #e5e7eb;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: rgba(255,255,255,0.15);
+    }
+
+    .info {
+      margin-top: 14px;
       text-align: center;
-      margin-top: 15vh;
-      background: #f9fafb;
-    }
-    h1 { font-size: 2rem; }
-    #counter {
-      font-size: 3rem;
-      margin: 20px 0;
-      color: #2563eb;
-    }
-    #info {
-      font-size: 1rem;
-      color: #555;
+      font-size: 13px;
+      color: #94a3b8;
     }
   </style>
 </head>
-
 <body>
 
-  <h1>⏳ Décompte de 123 h</h1>
-  <div id="counter">123:00</div>
-  <div id="info"></div>
+  <div class="card">
+    <div class="time">
+      <span id="h">123</span>
+      <span class="colon">:</span>
+      <span id="m">00</span>
+      <span class="colon">:</span>
+      <span id="s">00</span>
+    </div>
 
-  <script>
-    let remainingSeconds = 123 * 3600;
+    <div class="labels">
+      <div>HOURS</div>
+      <div>MINUTES</div>
+      <div>SECONDS</div>
+    </div>
 
-    function isWeekend(date) {
-      const d = date.getDay();
-      return d === 0 || d === 6; // dimanche ou samedi
+    <div class="progress">
+      <div class="progress-bar" id="bar"></div>
+    </div>
+
+    <div class="progress-info">
+      <span>0h</span>
+      <span id="percent">0% complete</span>
+      <span>123h</span>
+    </div>
+
+    <div class="actions">
+      <button onclick="togglePause()">⏸ Pause</button>
+      <button onclick="resetTimer()">↺ Reset</button>
+    </div>
+
+    <div class="info" id="info"></div>
+  </div>
+
+<script>
+  const TOTAL = 123 * 3600;
+  let remaining = TOTAL;
+  let paused = false;
+
+  function isWeekend(d) {
+    return d.getDay() === 0 || d.getDay() === 6;
+  }
+
+  function isActivePeriod(d) {
+    const h = d.getHours();
+    if (isWeekend(d)) return true;
+    return h >= 16 || h < 7;
+  }
+
+  function tick() {
+    const now = new Date();
+
+    if (!paused && remaining > 0 && isActivePeriod(now)) {
+      remaining--;
     }
 
-    function isCountingTime(date) {
-      const hour = date.getHours();
+    const hrs = Math.floor(remaining / 3600);
+    const mins = Math.floor((remaining % 3600) / 60);
+    const secs = remaining % 60;
 
-      if (isWeekend(date)) {
-        // Fin de semaine : 7h à 7h (24h)
-        return true;
-      } else {
-        // Semaine : 16h à 7h
-        return hour >= 16 || hour < 7;
-      }
-    }
+    h.textContent = hrs.toString().padStart(2,'0');
+    m.textContent = mins.toString().padStart(2,'0');
+    s.textContent = secs.toString().padStart(2,'0');
 
-    function updateCounter() {
-      const now = new Date();
+    const done = ((TOTAL - remaining) / TOTAL) * 100;
+    bar.style.width = done + '%';
+    percent.textContent = done.toFixed(1) + '% complete';
 
-      if (remainingSeconds > 0 && isCountingTime(now)) {
-        remainingSeconds--;
-      }
+    info.textContent = isWeekend(now)
+      ? 'Fin de semaine : décompte actif 24h (7h à 7h)'
+      : 'Semaine : décompte actif de 16h à 7h';
+  }
 
-      const hours = Math.floor(remainingSeconds / 3600);
-      const minutes = Math.floor((remainingSeconds % 3600) / 60);
+  function togglePause() {
+    paused = !paused;
+  }
 
-      document.getElementById("counter").textContent =
-        `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
+  function resetTimer() {
+    remaining = TOTAL;
+  }
 
-      document.getElementById("info").textContent =
-        isWeekend(now)
-          ? "Fin de semaine : décompte actif 24 h (7h à 7h)"
-          : "Jour de semaine : décompte actif de 16h à 7h";
-    }
+  setInterval(tick, 1000);
 
-    setInterval(updateCounter, 1000);
-
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("service-worker.js");
-    }
-  </script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js');
+  }
+</script>
 
 </body>
 </html>
