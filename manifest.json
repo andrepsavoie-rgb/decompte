@@ -28,3 +28,9 @@
     }
   ]
 }
+"shortcuts": [
+  {
+    "name": "Décompte Widget",
+    "url": "/widget.html"
+  }
+]
