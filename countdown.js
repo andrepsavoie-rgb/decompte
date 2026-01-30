@@ -1,8 +1,8 @@
-const TOTAL = 123 * 3600; // 123h en secondes
+const TOTAL = 123 * 3600; 
 let remaining = TOTAL;
 
 function isWeekend(d) { return d.getDay() === 0 || d.getDay() === 6; }
-function isActivePeriod(d) {
+function isActivePeriod(d) { 
   const h = d.getHours();
   if (isWeekend(d)) return true;
   return h >= 16 || h < 7;
