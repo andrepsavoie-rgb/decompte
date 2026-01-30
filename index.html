@@ -6,8 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Décompte 123h</title>
 
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#0b1220" />
+  <link rel="manifest" href="/decompte/manifest.json">
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/decompte/service-worker.js');
+}
+</script>
+
 
   <style>
     body {
