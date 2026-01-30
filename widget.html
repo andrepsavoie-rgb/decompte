@@ -1,6 +1,33 @@
-<div style="font-family:sans-serif;color:#22d3ee;text-align:center;padding:20px;">
-  <h1 id="h">123</h1>
-  <p id="m">00:00</p>
-</div>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Décompte Widget</title>
+<link rel="manifest" href="manifest.json">
+<style>
+  body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #0b1220;
+    color: #22d3ee;
+    text-align: center;
+  }
+  #h { font-size: 48px; font-weight: bold; }
+  #m, #s { font-size: 32px; }
+</style>
+</head>
+<body>
+  <div>
+    <div id="h">123</div>
+    <div id="m">00</div>
+    <div id="s">00</div>
+  </div>
 
 <script src="countdown.js"></script>
+</body>
+</html>
