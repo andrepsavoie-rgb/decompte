@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Décompte 123h</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2563eb">
+  <link rel="icon" href="icons/icon-192.png">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 15vh;
+      background: #f9fafb;
+    }
+    h1 { font-size: 2rem; }
+    #counter {
+      font-size: 3rem;
+      margin: 20px 0;
+      color: #2563eb;
+    }
+    #info {
+      font-size: 1rem;
+      color: #555;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>⏳ Décompte de 123 h</h1>
+  <div id="counter">123:00</div>
+  <div id="info"></div>
+
+  <script>
+    let remainingSeconds = 123 * 3600;
+
+    function isWeekend(date) {
+      const d = date.getDay();
+      return d === 0 || d === 6; // dimanche ou samedi
+    }
+
+    function isCountingTime(date) {
+      const hour = date.getHours();
+
+      if (isWeekend(date)) {
+        // Fin de semaine : 7h à 7h (24h)
+        return true;
+      } else {
+        // Semaine : 16h à 7h
+        return hour >= 16 || hour < 7;
+      }
+    }
+
+    function updateCounter() {
+      const now = new Date();
+
+      if (remainingSeconds > 0 && isCountingTime(now)) {
+        remainingSeconds--;
+      }
+
+      const hours = Math.floor(remainingSeconds / 3600);
+      const minutes = Math.floor((remainingSeconds % 3600) / 60);
+
+      document.getElementById("counter").textContent =
+        `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
+
+      document.getElementById("info").textContent =
+        isWeekend(now)
+          ? "Fin de semaine : décompte actif 24 h (7h à 7h)"
+          : "Jour de semaine : décompte actif de 16h à 7h";
+    }
+
+    setInterval(updateCounter, 1000);
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js");
+    }
+  </script>
+
+</body>
+</html>
