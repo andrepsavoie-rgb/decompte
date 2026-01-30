@@ -2,18 +2,18 @@
   "name": "Décompte 123h",
   "short_name": "Décompte",
   "description": "Décompte actif entre 16h et 7h (semaine) et 24h le week-end",
-  "start_url": "/index.html",
+  "start_url": "/decompte/index.html",
   "display": "standalone",
   "background_color": "#0b1220",
   "theme_color": "#0b1220",
   "icons": [
     {
-      "src": "/icons/icon-192.png",
+      "src": "/decompte/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/icons/icon-512.png",
+      "src": "/decompte/icons/icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
@@ -23,8 +23,8 @@
       "name": "Décompte Widget",
       "short_name": "Widget",
       "description": "Voir le décompte rapide",
-      "url": "/widget.html",
-      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+      "url": "/decompte/widget.html",
+      "icons": [{ "src": "/decompte/icons/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }
