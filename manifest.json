@@ -20,17 +20,11 @@
   ],
   "shortcuts": [
     {
-      "name": "Décompte rapide",
-      "short_name": "Décompte",
-      "description": "Voir le décompte",
-      "url": "/index.html",
+      "name": "Décompte Widget",
+      "short_name": "Widget",
+      "description": "Voir le décompte rapide",
+      "url": "/widget.html",
       "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
     }
   ]
 }
-"shortcuts": [
-  {
-    "name": "Décompte Widget",
-    "url": "/widget.html"
-  }
-]
